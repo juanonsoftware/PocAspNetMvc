@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Bootstrap Autocomplete Testing";
+}
+
+@section scripts
+{
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.0.0/dist/latest/bootstrap-autocomplete.min.js"></script>
+    <script type="text/javascript">
+        $('.basicAutoComplete').autoComplete({
+            resolverSettings: {
+                url: '/static/bootstrap-autocomplete-ds.json'
+            }
+        });
+
+        $('.basicAutoSelect').autoComplete({
+            'minLength': 1,
+            'bootstrapVersion': 3
+        });
+
+        $('.basicAutoSelect').on('autocomplete.select', function (e, item) {
+            var hdn = $('#hdn_selected_items');
+            var items = $('#selected_items');
+
+            if (hdn.val().indexOf(',' + item.value + ',') < 0) {
+                var newval = hdn.val() + item.value + ',';
+                if (hdn.val() == '') {
+                    newval = ',' + newval;
+                }
+
+                var newhtml = '<span>' + item.text + '</span>';
+                if (items.html() != '') {
+                    newhtml = items.html() + '<br/>' + newhtml;
+                }
+
+                items.html(newhtml);
+                hdn.val(newval);
+            }
+
+            $('input.basicAutoSelect[name=simple_select_text]').val('');
+        });
+    </script>
+}
+
+<div class="jumbotron">
+    <p>Testing AutoComplete with Bootstrap</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div>
+                A textbox to filter from values
+            </div>
+            <input class="form-control basicAutoComplete" type="text" autocomplete="off">
+
+            <div>
+                A selectbox to filter from values
+            </div>
+            <select class="form-control basicAutoSelect" name="simple_select"
+                    placeholder="type to search..."
+                    data-noresults-text="Nothing to see here."
+                    data-url="/Home/BootstrapAutocompleteDataSource" autocomplete="off"></select>
+
+            <input type="hidden" id="hdn_selected_items" />
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div id="selected_items"></div>
+    </div>
+</div>
+
