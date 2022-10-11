@@ -4,40 +4,67 @@
 
 @section scripts
 {
+    <style type="text/css">
+        span[name=item_remove] {
+            cursor: pointer;
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.0.0/dist/latest/bootstrap-autocomplete.min.js"></script>
     <script type="text/javascript">
         $('.basicAutoComplete').autoComplete({
-            resolverSettings: {
-                url: '/static/bootstrap-autocomplete-ds.json'
-            }
-        });
-
-        $('.basicAutoSelect').autoComplete({
             'minLength': 1,
             'bootstrapVersion': 3
         });
 
+        $('.basicAutoSelect').autoComplete({
+            'minLength': 1,
+            'bootstrapVersion': 3,
+            'autoSelect': false
+        });
+
+        $('.basicAutoComplete').on('autocomplete.select', function (e, item) {
+            updateSelectedItem(item);
+
+            $('input.basicAutoComplete').val('');
+        });
+
         $('.basicAutoSelect').on('autocomplete.select', function (e, item) {
+            updateSelectedItem(item);
+
+            $('input.basicAutoSelect[name=simple_select_text]').val('');
+            $('input[name=simple_select]').val('');
+        });
+
+        $('#selected_items').on('click', 'span[name=item_remove]', function () {
+            var item_value = $(this).data('item');
+
+            $('#selected_items div#item_' + item_value).remove();
+
+            var hdn = $('#hdn_selected_items');
+            hdn.val(hdn.val().replace(',' + item_value + ',', ''));
+        });
+
+        function updateSelectedItem(item) {
             var hdn = $('#hdn_selected_items');
             var items = $('#selected_items');
+            var item_value = ',' + item.value + ',';
 
-            if (hdn.val().indexOf(',' + item.value + ',') < 0) {
-                var newval = hdn.val() + item.value + ',';
-                if (hdn.val() == '') {
-                    newval = ',' + newval;
-                }
+            if (hdn.val().indexOf(item_value) < 0) {
+                var newval = hdn.val() + item_value;
 
-                var newhtml = '<span>' + item.text + '</span>';
+                var template = $('#item_template').html();
+                var newhtml = template.replaceAll('{TEXT}', item.text);
+                newhtml = newhtml.replaceAll('{VALUE}', item.value);
+
                 if (items.html() != '') {
-                    newhtml = items.html() + '<br/>' + newhtml;
+                    newhtml = items.html() + newhtml;
                 }
 
                 items.html(newhtml);
                 hdn.val(newval);
             }
-
-            $('input.basicAutoSelect[name=simple_select_text]').val('');
-        });
+        }
     </script>
 }
 
@@ -51,7 +78,9 @@
             <div>
                 A textbox to filter from values
             </div>
-            <input class="form-control basicAutoComplete" type="text" autocomplete="off">
+            <input class="form-control basicAutoComplete" type="text" data-noresults-text="Nothing to see here."
+                   data-url="/Home/BootstrapAutocompleteDataSource"
+                   autocomplete="off">
 
             <div>
                 A selectbox to filter from values
@@ -67,6 +96,12 @@
 
     <div class="col-md-6">
         <div id="selected_items"></div>
+        <div id="item_template" style="display:none">
+            <div id="item_{VALUE}">
+                <span>{TEXT}</span>
+                <span class="glyphicon glyphicon-remove" name="item_remove" data-item="{VALUE}" aria-hidden="true"></span>
+            </div>
+        </div>
     </div>
 </div>
 
