@@ -24,11 +24,34 @@ namespace PocAspNetMvc.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult BootstrapAutocomplete()
         {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult BootstrapAutocomplete(FormCollection form)
+        {
+            if (!string.IsNullOrWhiteSpace(form["hdn_selected_items"]))
+            {
+                var selectedItems = form["hdn_selected_items"].Split(',').Where(x => !string.IsNullOrEmpty(x));
+                ViewBag.SelectedItems = string.Join(", ", selectedItems);
+
+                if (!string.IsNullOrWhiteSpace(form["hdn_new_items"]))
+                {
+                    var newItems = form["hdn_new_items"]
+                        .Split("$$".ToCharArray())
+                        .Where(x => selectedItems.Any(selected => x.StartsWith(selected + ":")))
+                        .Select(x => x.Split(':')[1]);
+                    ViewBag.NewItems = string.Join(", ", newItems);
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult BootstrapAutocompleteDataSource(string q)
         {
             var data = SampleDataForAutoComplete.InitValues()

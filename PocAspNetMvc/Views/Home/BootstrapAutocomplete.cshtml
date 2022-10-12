@@ -5,7 +5,7 @@
 @section scripts
 {
     <style type="text/css">
-        span[name=item_remove] {
+        span[name=item_remove], span[name=item_plus] {
             cursor: pointer;
         }
     </style>
@@ -36,6 +36,7 @@
             $('input[name=simple_select]').val('');
         });
 
+        // To remove selected items
         $('#selected_items').on('click', 'span[name=item_remove]', function () {
             var item_value = $(this).data('item');
 
@@ -43,6 +44,20 @@
 
             var hdn = $('#hdn_selected_items');
             hdn.val(hdn.val().replace(',' + item_value + ',', ''));
+        });
+
+        // To add a new item
+        $('span#item_plus').click(function () {
+            var new_text = $('.basicAutoComplete').val();
+            var new_value = 'New_' + Date.now();
+
+            if (new_text != '') {
+                updateSelectedItem({ value: new_value, text: new_text });
+                $('.basicAutoComplete').val('');
+
+                var new_item = new_value + ':' + new_text + '$$';
+                $('#hdn_new_items').val($('#hdn_new_items').val() + new_item);
+            }
         });
 
         function updateSelectedItem(item) {
@@ -70,6 +85,8 @@
 
 <div class="jumbotron">
     <p>Testing AutoComplete with Bootstrap</p>
+    <p>Selected items: @ViewBag.SelectedItems</p>
+    <p>New items: @ViewBag.NewItems</p>
 </div>
 
 <div class="row">
@@ -78,9 +95,17 @@
             <div>
                 A textbox to filter from values
             </div>
-            <input class="form-control basicAutoComplete" type="text" data-noresults-text="Nothing to see here."
-                   data-url="/Home/BootstrapAutocompleteDataSource"
-                   autocomplete="off">
+
+            <div class="input-group">
+                <input class="form-control basicAutoComplete" type="text" data-noresults-text="Nothing to see here."
+                       data-url="/Home/BootstrapAutocompleteDataSource"
+                       autocomplete="off" aria-describedby="item_plus">
+                <span name="item_plus" class="input-group-addon" id="item_plus">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+            </div>
+
+            <br /><br /><br />
 
             <div>
                 A selectbox to filter from values
@@ -90,7 +115,11 @@
                     data-noresults-text="Nothing to see here."
                     data-url="/Home/BootstrapAutocompleteDataSource" autocomplete="off"></select>
 
-            <input type="hidden" id="hdn_selected_items" />
+            <input type="hidden" name="hdn_selected_items" id="hdn_selected_items" />
+            <input type="hidden" name="hdn_new_items" id="hdn_new_items" />
+
+            <br /><br /><br />
+            <input type="submit" name="submit" value="Submit" />
         </form>
     </div>
 
