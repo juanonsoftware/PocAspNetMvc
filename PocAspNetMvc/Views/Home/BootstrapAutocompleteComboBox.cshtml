@@ -12,15 +12,17 @@
 
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.0.0/dist/latest/bootstrap-autocomplete.min.js"></script>
     <script type="text/javascript">
-        $('.basicAutoComplete').autoComplete({
+        $('.basicAutoSelect').autoComplete({
             'minLength': 1,
-            'bootstrapVersion': 3
+            'bootstrapVersion': 3,
+            'autoSelect': false
         });
 
-        $('.basicAutoComplete').on('autocomplete.select', function (e, item) {
+        $('.basicAutoSelect').on('autocomplete.select', function (e, item) {
             updateSelectedItem(item);
 
-            $('input.basicAutoComplete').val('');
+            $('input.basicAutoSelect[name=simple_select_text]').val('');
+            $('input[name=simple_select]').val('');
         });
 
         // To remove selected items
@@ -80,18 +82,13 @@
     <div class="col-md-6">
         <form method="post">
             <div>
-                A textbox to filter from values
+                A selectbox to filter from values
             </div>
+            <select class="form-control basicAutoSelect" name="simple_select"
+                    placeholder="type to search..."
+                    data-noresults-text="Nothing to see here."
+                    data-url="/Home/BootstrapAutocompleteDataSource" autocomplete="off"></select>
 
-            <div class="input-group">
-                <input class="form-control basicAutoComplete" type="text" data-noresults-text="Nothing to see here."
-                       data-url="/Home/BootstrapAutocompleteDataSource"
-                       autocomplete="off" aria-describedby="item_plus">
-                <span name="item_plus" class="input-group-addon" id="item_plus">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </span>
-            </div>
-            
             <input type="hidden" name="hdn_selected_items" id="hdn_selected_items" />
             <input type="hidden" name="hdn_new_items" id="hdn_new_items" />
 

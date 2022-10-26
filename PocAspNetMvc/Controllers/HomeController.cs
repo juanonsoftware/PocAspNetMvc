@@ -30,8 +30,27 @@ namespace PocAspNetMvc.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult BootstrapAutocompleteComboBox()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult BootstrapAutocomplete(FormCollection form)
+        {
+            HandleFormSubmit(form);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BootstrapAutocompleteComboBox(FormCollection form)
+        {
+            HandleFormSubmit(form);
+            return View();
+        }
+
+        private void HandleFormSubmit(FormCollection form)
         {
             if (!string.IsNullOrWhiteSpace(form["hdn_selected_items"]))
             {
@@ -47,8 +66,6 @@ namespace PocAspNetMvc.Controllers
                     ViewBag.NewItems = string.Join(", ", newItems);
                 }
             }
-
-            return View();
         }
 
         [HttpGet]
