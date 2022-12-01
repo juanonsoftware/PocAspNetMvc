@@ -5,7 +5,7 @@
 @section scripts
 {
     <style type="text/css">
-        span[name=item_remove], span[name=item_plus] {
+        span[name=item_remove] {
             cursor: pointer;
         }
     </style>
@@ -33,20 +33,6 @@
 
             var hdn = $('#hdn_selected_items');
             hdn.val(hdn.val().replace(',' + item_value + ',', ''));
-        });
-
-        // To add a new item
-        $('span#item_plus').click(function () {
-            var new_text = $('.basicAutoComplete').val();
-            var new_value = 'New_' + Date.now();
-
-            if (new_text != '') {
-                updateSelectedItem({ value: new_value, text: new_text });
-                $('.basicAutoComplete').val('');
-
-                var new_item = new_value + ':' + new_text + '$$';
-                $('#hdn_new_items').val($('#hdn_new_items').val() + new_item);
-            }
         });
 
         function updateSelectedItem(item) {
@@ -107,4 +93,3 @@
         </div>
     </div>
 </div>
-
