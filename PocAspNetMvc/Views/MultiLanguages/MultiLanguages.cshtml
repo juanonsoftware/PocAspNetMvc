@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "MultiLanguages";
+}
+
+@using PocAspNetMvc.Resources
+
+<h2>MultiLanguages</h2>
+
+@GlobalResx.SampleText
+
+<br />
+@GlobalResx.SampleNumber: @ViewBag.SampleNumer
+
+<br />
+@GlobalResx.SampleDate: @ViewBag.SampleDate
+
+<br />
+<br />
+<br />
+<a href="@Url.Action("ChangeLanguage", new { lang="vi" })">Vietnamese</a> |
+<a href="@Url.Action("ChangeLanguage", new { lang="en" })">English</a>
