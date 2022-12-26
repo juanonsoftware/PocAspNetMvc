@@ -16,7 +16,7 @@ namespace PocAspNetMvc.Controllers
         public ActionResult ChangeLanguage(string lang)
         {
             this.TrySetLanguage(lang);
-            return RedirectToAction("MultiLanguages");
+            return RedirectToAction(nameof(MultiLanguages));
         }
 
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
