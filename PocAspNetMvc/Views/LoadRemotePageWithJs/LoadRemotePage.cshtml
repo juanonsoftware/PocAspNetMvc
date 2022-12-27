@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "LoadRemotePage";
+}
+
+<h2>LoadRemotePage</h2>
+
+<div id="dest">
+    <p>
+        Using javascript to get content from a remote page...
+    </p>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.get('https://cors-anywhere.herokuapp.com/https://vndocs.azurewebsites.net', function (data) {
+                $('#dest').html(data)
+            });
+        });
+    </script>
+}

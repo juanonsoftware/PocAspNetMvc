@@ -112,6 +112,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguagesHelper.cs" />
+    <Compile Include="Controllers\LoadRemotePageWithJsController.cs" />
     <Compile Include="Controllers\MultiLanguagesController.cs" />
     <Compile Include="Controllers\SampleDataForAutoComplete.cs" />
     <Compile Include="Global.asax.cs">
@@ -163,6 +164,7 @@
     <Content Include="Views\Home\BootstrapAutocomplete.cshtml" />
     <Content Include="Views\Home\BootstrapAutocompleteComboBox.cshtml" />
     <Content Include="Views\MultiLanguages\MultiLanguages.cshtml" />
+    <Content Include="Views\LoadRemotePageWithJs\LoadRemotePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
