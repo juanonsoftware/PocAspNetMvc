@@ -8,6 +8,8 @@
 <div id="dest">
     <p>
         Using javascript to get content from a remote page...
+        <br />
+        https://vndocs.azurewebsites.net/Listing/ViewDocument?documentId=1103
     </p>
 </div>
 
@@ -15,7 +17,7 @@
 {
     <script type="text/javascript">
         $(function () {
-            $.get('https://cors-anywhere.herokuapp.com/https://vndocs.azurewebsites.net', function (data) {
+            $.get('https://vndocs.azurewebsites.net/Listing/ViewContent?documentId=1103', function (data) {
                 $('#dest').html(data)
             });
         });
